@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/components/mu_buttons.dart';
 import 'package:food_delivery_app/components/my_textfields.dart';
+import 'package:food_delivery_app/pages/home_page.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -13,8 +15,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
+
+  // login
+  void login() {
+    // navigation to home page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +37,14 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // logo
-            Icon(
-              Icons.lock_open_rounded,
-              size: 100,
-              color: Theme.of(context).colorScheme.inversePrimary,
+            // Icon(
+            //   Icons.lock_open_rounded,
+            //   size: 100,
+            //   color: Theme.of(context).colorScheme.inversePrimary,
+            // ),
+            Lottie.asset(
+              'assets/animation/blinddata.json',
+              height: 100,
             ),
 
             const SizedBox(
@@ -69,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             // sign in buutton
             MyPrimaryButton(
               text: "Sign in",
-              onTap: () {},
+              onTap: login,
             ),
 
             const SizedBox(
