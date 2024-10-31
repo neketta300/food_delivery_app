@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // login
   void login() {
-    // navigation to home page
+    //navigation to home page
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -43,17 +43,17 @@ class _LoginPageState extends State<LoginPage> {
             //   color: Theme.of(context).colorScheme.inversePrimary,
             // ),
             Lottie.asset(
-              'assets/animation/blinddata.json',
-              height: 100,
+              'assets/animation/9ata.json',
+              height: 120,
             ),
 
             const SizedBox(
-              height: 25,
+              height: 15,
             ),
 
             // msg, app slogan
             Text(
-              "Food Deliver App",
+              "Food Delivery App",
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).colorScheme.inversePrimary,
