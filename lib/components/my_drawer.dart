@@ -53,7 +53,7 @@ class MyDrawer extends StatelessWidget {
             icon: Icons.logout,
             onTap: () {},
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           )
         ],
