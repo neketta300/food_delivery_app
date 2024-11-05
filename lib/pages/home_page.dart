@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       drawer: const MyDrawer(),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -93,13 +94,10 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ],
-        body: ColoredBox(
-          color: Theme.of(context).colorScheme.secondary,
-          child: Consumer<Restaurant>(
-            builder: (context, restaurant, child) => TabBarView(
-              controller: _tabController,
-              children: getFoodInThisCategory(restaurant.menu),
-            ),
+        body: Consumer<Restaurant>(
+          builder: (context, restaurant, child) => TabBarView(
+            controller: _tabController,
+            children: getFoodInThisCategory(restaurant.menu),
           ),
         ),
       ),

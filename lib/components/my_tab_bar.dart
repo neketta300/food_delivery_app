@@ -20,6 +20,9 @@ class MyTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TabBar(
+        dividerColor: Theme.of(context)
+            .colorScheme
+            .secondary, // color of divdier under tab bar
         controller: tabController,
         tabs: _buildCategoryTabs(),
       ),

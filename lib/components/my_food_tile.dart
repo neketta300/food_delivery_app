@@ -45,7 +45,7 @@ class FoodTile extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
 

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/cart_item.dart';
 import 'package:food_delivery_app/models/food.dart';
+import 'package:intl/intl.dart';
 
 class Restaurant extends ChangeNotifier {
   final List<Food> _menu = [
@@ -29,7 +30,7 @@ class Restaurant extends ChangeNotifier {
       image: "assets/images/burger/burgerBacon.jpg",
       description:
           "Indulge in the succulent flavors of a beefy delight with gooey melted cheddar, fresh lettuce, ripe tomato, and a touch of tangy onion pickle.",
-      name: "Steak Burger",
+      name: "Bacon Burger",
       price: 1.49,
     ),
     Food(
@@ -42,7 +43,7 @@ class Restaurant extends ChangeNotifier {
       image: "assets/images/burger/steakBurger.jpg",
       description:
           "Savor the smoky goodness of a Bacon Burger featuring a juicy beef patty topped with crispy bacon strips, melted cheese, fresh lettuce, ripe tomatoes, and a dollop of tangy barbecue sauce.",
-      name: "Bacon Burger",
+      name: "Steak Burger",
       price: 1.99,
     ),
     Food(
@@ -243,7 +244,7 @@ class Restaurant extends ChangeNotifier {
 
       // check if the list of selected addons are the same
       bool isSameAddons =
-          ListEquality().equals(item.selectedAddons, selectedAddons);
+          const ListEquality().equals(item.selectedAddons, selectedAddons);
 
       return isSameAddons && isSameFood;
     });
@@ -288,7 +289,7 @@ class Restaurant extends ChangeNotifier {
   }
 
   // get total number of items in cart
-  int getTotalIntemCart() {
+  int getTotalItemCount() {
     int totalItemCount = 0;
     for (CartItem cartItem in _cart) {
       totalItemCount += cartItem.quantity;
@@ -309,8 +310,46 @@ class Restaurant extends ChangeNotifier {
   */
 
   // generate a receipt
+  String displayCartReceipt() {
+    final receipt = StringBuffer();
+    receipt.writeln("Here's your receipt.");
+    receipt.writeln();
+
+    // format the date to indclude up to seconds only
+    String formattedDate =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
+    receipt.writeln(formattedDate);
+    receipt.writeln();
+    receipt.writeln("-------------");
+
+    for (final cartItem in _cart) {
+      receipt.writeln(
+          "${cartItem.quantity} x ${cartItem.food.name} - ${_formatPrice(cartItem.food.price)}");
+      if (cartItem.selectedAddons.isNotEmpty) {
+        receipt
+            .writeln("     Add-ons: ${_formatAddons(cartItem.selectedAddons)}");
+      }
+      receipt.writeln();
+    }
+
+    receipt.writeln("-------------");
+    receipt.writeln();
+    receipt.writeln("Total Items: ${getTotalItemCount()}");
+    receipt.writeln("Total Price: ${_formatPrice(getTotalPrice())}");
+
+    return receipt.toString();
+  }
 
   // format double value into money
+  String _formatPrice(double price) {
+    return "\$${price.toStringAsFixed(2)}";
+  }
 
   // format list of addons into a string
+  String _formatAddons(List<Addon> addons) {
+    return addons
+        .map((addon) => "${addon.name} (${_formatPrice(addon.price)})")
+        .join(", ");
+  }
 }
