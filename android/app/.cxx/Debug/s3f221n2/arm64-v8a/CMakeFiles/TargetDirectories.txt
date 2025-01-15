@@ -1,0 +1,3 @@
+C:/flutterProject/food_delivery_app/android/app/.cxx/Debug/s3f221n2/arm64-v8a/CMakeFiles/native_check_logpas.dir
+C:/flutterProject/food_delivery_app/android/app/.cxx/Debug/s3f221n2/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/flutterProject/food_delivery_app/android/app/.cxx/Debug/s3f221n2/arm64-v8a/CMakeFiles/rebuild_cache.dir

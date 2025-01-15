@@ -218,6 +218,9 @@ class Restaurant extends ChangeNotifier {
     ),
   ];
 
+  // delivery address
+  String _deliveryAddress = 'Per Kalinina 19';
+
   /* 
   
   G E T T E R S
@@ -226,6 +229,7 @@ class Restaurant extends ChangeNotifier {
 
   List<Food> get menu => _menu;
   List<CartItem> get cart => _cart;
+  String get deliveryAddress => _deliveryAddress;
 
   /*
   
@@ -303,6 +307,12 @@ class Restaurant extends ChangeNotifier {
     notifyListeners();
   }
 
+  //update delivery adress
+  void updateDeliveryAdress(String newAdress) {
+    _deliveryAddress = newAdress;
+    notifyListeners();
+  }
+
   /* 
   
   H E L P E R S
@@ -337,7 +347,8 @@ class Restaurant extends ChangeNotifier {
     receipt.writeln();
     receipt.writeln("Total Items: ${getTotalItemCount()}");
     receipt.writeln("Total Price: ${_formatPrice(getTotalPrice())}");
-
+    receipt.writeln();
+    receipt.writeln("Deliverig to: $deliveryAddress");
     return receipt.toString();
   }
 

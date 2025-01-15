@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/components/mu_buttons.dart';
 import 'package:food_delivery_app/components/my_textfields.dart';
+import 'package:food_delivery_app/ffi/native_check_logpas.dart';
+import 'package:ffi/ffi.dart';
 import 'package:food_delivery_app/pages/home_page.dart';
+import 'package:food_delivery_app/services/auth/auth_service.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,16 +19,50 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
+  String? erorrText;
   // login
-  void login() {
-    //navigation to home page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ),
-    );
+  void login() async {
+    // get instacne of auth service
+    final _authService = AuthService();
+    final login = emailController.text.toNativeUtf8();
+    final password = passwordController.text.toNativeUtf8();
+    final resultOfCppFunc = checkCredentials(login, password);
+
+    // try to sign in
+    if (resultOfCppFunc == 1) {
+      print('open app like admin');
+      erorrText = null;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    } else {
+      erorrText = 'Не верный логин или пароль';
+      print('show error');
+    }
+
+    if (erorrText != null) {
+      try {
+        await _authService.signInWithEmailPassword(
+            emailController.text, passwordController.text);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(e.toString()),
+          ),
+        );
+      }
+    }
+    // //navigation to home page
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => const HomePage(),
+    //   ),
+    // );
   }
 
   @override
@@ -43,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
             //   color: Theme.of(context).colorScheme.inversePrimary,
             // ),
             Lottie.asset(
-              'assets/animation/9ata.json',
+              'assets/animation/10.json',
               height: 120,
             ),
 

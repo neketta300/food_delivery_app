@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/components/mu_buttons.dart';
 import 'package:food_delivery_app/components/my_textfields.dart';
+import 'package:food_delivery_app/services/auth/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -17,6 +18,44 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+
+  void register() async {
+    // get auth service
+    final _authService = AuthService();
+
+    // check if password match -> create user
+    if (passwordController.text == confirmPasswordController.text) {
+      // try creating user
+      try {
+        await _authService.signUpWithEmailPassword(
+            emailController.text, passwordController.text);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            title: Text(e.toString()),
+          ),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: const Text("Passwords don't match!"),
+        ),
+      );
+    }
+
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => AlertDialog(
+    //     backgroundColor: Theme.of(context).colorScheme.surface,
+    //     title: const Text("User wants to register"),
+    //   ),
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
             // sign in buutton
             MyPrimaryButton(
               text: "Sign up",
-              onTap: () {},
+              onTap: () => register(),
             ),
 
             const SizedBox(
